@@ -73,6 +73,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs" />
     <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>

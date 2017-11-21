@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RC_Server_Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,9 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello RC");
+            Server server = new Server();
+            server.Listen(80);
+            Console.WriteLine("Multithread application");
             Console.ReadKey();
         }
     }
