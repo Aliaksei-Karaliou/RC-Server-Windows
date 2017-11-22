@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Text;
 
-namespace Server
+namespace RC.Server
 {
     class Client
     {
