@@ -1,6 +1,6 @@
-﻿using RC.Server;
+﻿
+using RC.Server;
 using System;
-using System.Collections.Generic;
 
 namespace Test
 {
@@ -9,19 +9,14 @@ namespace Test
         static void Main(string[] args)
         {
             Server server = new Server();
-            server.AddListener("/mama", ToHtml);
+            server.AddListener("/mama", FileExplorerApi.API.Get);
+            server.PageNotFoundCallback = error;
             server.Listen(80);
-            server.PageNotFoundCallback = Error;
             Console.WriteLine("Multithread application");
             Console.ReadKey();
         }
 
-        static string ToHtml(Dictionary<string,string> param)
-        {
-            return "Mama UUUUUh";
-        }
-
-        static string Error()
+        static string error()
         {
             return "404";
         }

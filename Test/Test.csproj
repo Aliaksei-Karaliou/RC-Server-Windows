@@ -49,6 +49,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FileEplorerApi\FileExplorerApi.csproj">
+      <Project>{AD1FEB76-E511-494F-80ED-074CD2D66F48}</Project>
+      <Name>FileExplorerApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\App.csproj">
       <Project>{A6EA3C56-ED14-4566-9D2F-6A58AEEB4AD8}</Project>
       <Name>App</Name>

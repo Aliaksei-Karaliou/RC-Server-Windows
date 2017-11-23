@@ -36,13 +36,18 @@ namespace RC.Server
 
             string path = GetRequestPath(request);
             Uri uri = new Uri("http://localhost" + path);
-            var query = uri.Query;
+            var localPath = uri.LocalPath;
 
-            string responce= callbackList.ContainsKey(uri.LocalPath)? callbackList[path]?.Invoke(parseQuery(query)): PageNotFoundCallback?.Invoke();
-            string header = "HTTP/1.1 200 OK\nContent-type: text/html\nContent-Length:" + responce.Length + "\n\n" + responce;
-            byte[] buf = Encoding.ASCII.GetBytes(header);
-            tcpClient.GetStream().Write(buf, 0, buf.Length);
-            tcpClient.Close();
+            var query=parseQuery(uri.Query);
+            string responce= callbackList.ContainsKey(localPath)? callbackList[localPath]?.Invoke(parseQuery(uri.Query)): PageNotFoundCallback?.Invoke();
+
+            if (responce != null)
+            {
+                string header = "HTTP/1.1 200 OK\nContent-type: text/html\nContent-Length:" + responce.Length + "\n\n" + responce;
+                byte[] buf = Encoding.ASCII.GetBytes(header);
+                tcpClient.GetStream().Write(buf, 0, buf.Length);
+                tcpClient.Close();
+            }
         }
 
         private string GetRequestPath(string request)
@@ -55,14 +60,18 @@ namespace RC.Server
         private Dictionary<string, string> parseQuery(string query)
         {
             var result = new Dictionary<string, string>();
-            var parameters = query.Substring(0).Split('&');
 
-            foreach (string param in parameters)
+            if (query.Length > 0)
             {
-                var parameter = param.Split('=');
-                if (parameter.Length == 2)
+                var parameters = query.Substring(1).Split('&');
+
+                foreach (string param in parameters)
                 {
-                    result.Add(parameter[0], parameter[1]);
+                    var parameter = param.Split('=');
+                    if (parameter.Length == 2)
+                    {
+                        result.Add(parameter[0], parameter[1]);
+                    }
                 }
             }
 
