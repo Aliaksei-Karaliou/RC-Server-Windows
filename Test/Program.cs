@@ -1,8 +1,6 @@
-﻿using System;
+﻿using RC.Server;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Test
 {
@@ -10,8 +8,22 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello RC");
+            Server server = new Server();
+            server.AddListener("/mama", ToHtml);
+            server.Listen(80);
+            server.PageNotFoundCallback = Error;
+            Console.WriteLine("Multithread application");
             Console.ReadKey();
+        }
+
+        static string ToHtml(Dictionary<string,string> param)
+        {
+            return "Mama UUUUUh";
+        }
+
+        static string Error()
+        {
+            return "404";
         }
     }
 }
